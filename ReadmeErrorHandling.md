@@ -1,9 +1,13 @@
 1. 🧨 uncaughtException = Synchronous Error Not Caught
-It happens when you make a mistake (like throw new Error) outside of async code, and forget to wrap it in a safety net.
-something that throws an error out of synchronous code. 
+Any synchronous error in your Node.js backend that is not wrapped in a try...catch block will be caught by this. 
+console.log(user.name); // 🧨 'user' is not defined
 
 2. 🌊 unhandledRejection = Promise Error Not Handled
-It happens when a Promise fails and you forget to catch the error. 
+❌ Throwing in an async function without try/catch
+async function test() {
+  throw new Error("Async error");
+}
+test(); // ❌ No try/catch → triggers unhandledRejection
 
 The order of the unCaughtException & unHandledRejection should be like
 unCaughtException should be immediately after the imports.
@@ -22,9 +26,6 @@ If "12345" is not a valid MongoDB ObjectId, Mongoose will throw a CastError.
 🧠 Think of it like:
 "Hey, I expected an ObjectId here, but I got something I can't convert into that!"
 🔴 Example Output:
-json
-Copy
-Edit
 {
   "name": "CastError",
   "message": "Cast to ObjectId failed for value '12345' at path '_id'"

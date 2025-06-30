@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
 const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "Please enter your name"],
       trim: true,
-      maxLength: [50, "Your name cannot exceed 50 character"]
+      maxLength: [50, "Your name cannot exceed 50 characters"]
     },
     email: {
       type: String,
@@ -26,12 +27,8 @@ const userSchema = mongoose.Schema(
       select: false,
     },
     avatar: {
-      public_id: {
-        type: String
-      },
-      url: {
-        type: String
-      },
+      public_id: { type: String },
+      url: { type: String },
     },
     role: {
       type: String,
@@ -39,12 +36,13 @@ const userSchema = mongoose.Schema(
       enum: ["user", "admin"],
     },
     resetPasswordToken: String,
-    resetPasswordExpired: Date
+    resetPasswordExpire: Date,
   },
   {
     timestamps: true,
   }
 );
+
 // encrypting before saving it into the DB
 userSchema.pre("save", async function(next){
     if(!this.isModified("password")){
@@ -60,4 +58,20 @@ userSchema.methods.getJwtToken = function() {
 userSchema.methods.comparePassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password)
 }
+// Generate password reset token
+userSchema.methods.getResetPasswordToken = function () {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  console.log("resetToken in schema", resetToken)
+  // Hash and set to resetPasswordToken field
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set token expire time
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
+
+  return resetToken;
+};
 export default mongoose.model("User", userSchema);
