@@ -29,6 +29,7 @@ export const authorizeRoles = (...roles) => {
 }
 export const forgotPassword = async (req, res, next) => {
   try {
+    console.log(req.body, "Forgot Password Request Body");
     const user = await User.findOne({ email: req.body.email.toLowerCase() });
 
     if (!user) {
@@ -40,7 +41,7 @@ export const forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
-    const resetUrl = `http://localhost:3000/password-reset.html?token=${resetToken}`;
+    const resetUrl = `http://localhost:3001/password-reset.html?token=${resetToken}`;
 
     const message = `Click the link to reset your password:\n\n${resetUrl}`;
 
