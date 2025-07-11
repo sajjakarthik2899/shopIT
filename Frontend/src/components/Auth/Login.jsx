@@ -12,7 +12,7 @@ const Login = () => {
   const {isAuthenticated} =  useSelector((state) => state.auth);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page refresh
+    e.preventDefault(); 
 
     const loginData = {
       email,
