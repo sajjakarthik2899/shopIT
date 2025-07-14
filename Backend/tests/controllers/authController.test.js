@@ -50,11 +50,11 @@ describe("registerUser controller", () => {
   });
   it("should call next with error if user creation fails", async () => {
   const error = new Error("Database error");
-
+  // Arrange the failure
   users.create.mockRejectedValue(error);
 
    await registerUser(req, res, next);
-
+  // Confirm it handled the error
   expect(next).toHaveBeenCalledWith(error);
 });
 });
