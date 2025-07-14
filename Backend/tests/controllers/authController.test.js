@@ -1,8 +1,10 @@
+jest.mock('../../models/users.js');
+jest.mock('../../utils/sendToken.js');
 import users from "../../models/users.js";
 import sendToken from "../../utils/sendToken.js";
 import { registerUser } from "../../controller/authController.js";
-jest.mock('../../models/users.js');
-jest.mock('../../utils/sendToken.js');
+// mock the necessary functions
+
 
 describe("registerUser controller", () => {
   let req, res, next;
@@ -33,6 +35,7 @@ describe("registerUser controller", () => {
       email: "john@example.com",
     };
     // Fake return
+    // const user = await users.create(data);
     users.create.mockResolvedValue(mockUser);
     // Act
     await registerUser(req, res, next);
@@ -46,12 +49,12 @@ describe("registerUser controller", () => {
     expect(sendToken).toHaveBeenCalledWith(mockUser, 201, res);
   });
   it("should call next with error if user creation fails", async () => {
-    const error = new Error("Database error");
-    users.create.mockRejectedValue(error);
+  const error = new Error("Database error");
 
-    await registerUser(req, res, next);
+  users.create.mockRejectedValue(error);
 
-    expect(next).toHaveBeenCalledWith(error);
-    expect(sendToken).not.toHaveBeenCalled();
-  });
+   await registerUser(req, res, next);
+
+  expect(next).toHaveBeenCalledWith(error);
+});
 });

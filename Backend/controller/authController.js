@@ -5,14 +5,17 @@ import sendToken from "../utils/sendToken.js";
 import crypto from "crypto";
 
 export const registerUser = catchAsyncError(async (req, res, next) => {
-    const {name, email, password} = req.body;
+  console.log("Inside registerUser controller");
+  const { name, email, password } = req.body;
 
-    const user = await users.create({
-        name, email, password
-    })
-    sendToken(user, 201, res)
-}); 
+  const user = await users.create({
+    name,
+    email,
+    password,
+  });
 
+  sendToken(user, 201, res);
+});
 export const loginUser = catchAsyncError(async (req, res, next) => {
     const {email, password} = req.body;
     if( !email || !password){
