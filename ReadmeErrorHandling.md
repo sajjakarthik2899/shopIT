@@ -13,7 +13,7 @@ The order of the unCaughtException & unHandledRejection should be like
 unCaughtException should be immediately after the imports.
 unHandledRejection should be after the app.listen since most of it occurs after the complete connection to DB.
 
-.next() i.e return next(new ErrorHandler("Product not found",404)) in productsController -> app.js errorMiddleware which is errors.js where error showing is handled
+.next() i.e return next(new ErrorHandler("Product not found",404)) in productsController -> app.js errorMiddleware which is errors.js where error showing is handled. when in an controller function if it goes to catch block in which next(error) is there then Skips remaining middlewares and jumps to the error handler middleware (middleware that has 4 arguments: err, req, res, next) like error.js file.
 
 
 <!-- The below errors usually occur when interacting with the Database -->
