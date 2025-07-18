@@ -20,7 +20,7 @@ pipeline {
 
     stage('Backend Install & Test') {
       steps {
-        dir('backend') { // Make sure your folder is named 'backend' (lowercase)
+        dir('Backend') { 
           sh 'npm install'
           sh 'npm test'
         }
@@ -29,6 +29,9 @@ pipeline {
   }
 
   post {
+    always {
+      junit 'Backend/test-reports/jest-junit.xml'
+    }
     success {
       echo '✅ Build and unit tests succeeded!'
     }
