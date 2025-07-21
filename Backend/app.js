@@ -39,7 +39,7 @@ app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
 app.use(errorMiddleware);
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0',() => {
   console.log(`Server is running on http://localhost:${PORT} in ${process.env.NODE_ENV} mode`);
 });
 process.on("unhandledRejection", (error) =>{
