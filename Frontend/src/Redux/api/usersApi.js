@@ -5,7 +5,7 @@ import { setIsAuthenticated, setUser } from '../features/usersSlice';
 export const usersApi = createApi({
     reducerPath: 'usersApi',
     keepUnusedDataFor: 30, 
-    baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://13.49.73.95/api/v1' }),
     endpoints: (builder) => ({
         getMyProfile: builder.query({
             query: () => ({
