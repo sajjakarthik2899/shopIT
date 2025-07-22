@@ -35,6 +35,9 @@ app.use((req, res, next) => {
 });
 // So any file in the public folder can now be accessed directly via URL.
 app.use(express.static(path.join(__dirname, "public")));
+app.get("/api/v1", (req, res) => {
+  res.send("API is working ✅");
+});
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", orderRoutes);
